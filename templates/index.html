@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1>Brain Tumor Detector</h1>
+            <p class="lead">Upload an MRI image to detect brain tumors.</p>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post" enctype="multipart/form-data" id="upload-form">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" name="file" id="file-input" required>
+                        <button class="btn btn-primary" type="submit" id="upload-button">Upload</button>
+                    </div>
+                </form>
+
+                <div id="loader" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+                {% if image_file %}
+                <div class="text-center my-4">
+                    <h3>Uploaded Image:</h3>
+                    <img src="data:image/jpeg;base64,{{ image_file }}" class="img-fluid rounded" alt="Uploaded Image">
+                </div>
+                {% endif %}
+
+                {% if prediction %}
+                <div class="alert alert-info text-center my-4" role="alert">
+                    <h2>Prediction: {{ prediction }}</h2>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 py-3 bg-dark text-white">
+        <p>&copy; 2025 Brain Tumor Detector</p>
+    </footer>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('upload-button').disabled = true;
+        });
+    </script>
+</body>
+</html>
